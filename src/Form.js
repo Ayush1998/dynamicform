@@ -43,6 +43,7 @@ const Form = () => {
         const {name, value} = e.target
         if(['contactType', 'contactPhone'].includes(e.target.name)){
             currentEmployees[index]['contacts'][childIndex][e.target.name === 'contactType'? 'type': 'phone'] = e.target.value
+            currentEmployees[index]['errors']['contacts'][childIndex]['numberReq'] = (currentEmployees[index]['contacts'][childIndex]['type'] !== '') && currentEmployees[index]['contacts'][childIndex]['phone'] === '' && currentEmployees[index]['errors']['contacts'][childIndex]['phone'] === '' ? true : false;
             if(childIndex !== 0){
                 if( currentEmployees[index]['contacts'][childIndex]['type'] === ''){
                     currentEmployees[index]['errors']['contacts'][childIndex]['type'] = currentEmployees[index]['contacts'][childIndex]['phone'] ==='' ? false : true
@@ -50,7 +51,6 @@ const Form = () => {
                 }
                 else{
                     currentEmployees[index]['errors']['contacts'][childIndex]['type'] = false;
-                    currentEmployees[index]['errors']['contacts'][childIndex]['numberReq'] = (currentEmployees[index]['contacts'][childIndex]['type'] !== '') && currentEmployees[index]['contacts'][childIndex]['phone'] === '' && currentEmployees[index]['errors']['contacts'][childIndex]['phone'] === '' ? true : false;
                     currentEmployees[index]['errors']['contacts'][childIndex]['phone'] = 
                     currentEmployees[index]['contacts'][childIndex]['type'] !== '' && !currentEmployees[index]['contacts'][childIndex]['phone'].match('^[0-9]*$') ?  'invalid' 
                         : currentEmployees[index]['contacts'][childIndex]['type'] !== '' && currentEmployees[index]['contacts'][childIndex]['phone'] === ''? 'empty' 
@@ -88,7 +88,7 @@ const Form = () => {
         }
         if(type === 'contact'){
             currentEmployees[index]['contacts'].push({type: '', phone: ''})
-            currentEmployees[index]['errors']['contacts'].push({type: false, phone: ''})
+            currentEmployees[index]['errors']['contacts'].push({type: false, phone: '', numberReq: false})
         }
         setEmployees(currentEmployees)
     }
@@ -113,16 +113,17 @@ const Form = () => {
     const isDataInvalid = () => {
         let currentEmployees = [...employees]
         let flag = false
-        currentEmployees.map((employee,i) => {
-            if(employee.name === ''){
+        for(let i=0 ; i< currentEmployees.length; i++){
+            if(currentEmployees[i].name === ''){
                 currentEmployees[i].errors.name = true
                 flag = true
             }
-            if (employee.designation === ''){
+            if (currentEmployees[i].designation === ''){
                 currentEmployees[i].errors.designation = true
                 flag = true
             }
-            employee.contacts.map((contact,index) => {
+            for(let index=0; index < currentEmployees[i]?.contacts.length; index++){
+                let contact = currentEmployees[i].contacts[index]
                 if(index === 0 && contact.type === ''){
                     currentEmployees[i]['errors']['contacts'][index]['type'] = true
                     flag = true
@@ -135,8 +136,8 @@ const Form = () => {
                     currentEmployees[i]['errors']['contacts'][index]['phone'] = 'empty'
                     flag = true
                 }
-            })
-        })
+            }
+        }
         setEmployees(currentEmployees)
         return flag
     }

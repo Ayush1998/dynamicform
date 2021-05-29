@@ -27,7 +27,7 @@ const Data = (props) => {
                 </div>
                 <div className="col-md-8">
                     {employee.contacts.map((contact,i) => (
-                       <p style={{marginBottom: '0'}} key={i}>{contact.type}-{contact.phone}</p>
+                     contact.type !== '' && contact.phone !== '' &&  <p style={{marginBottom: '0'}} key={i}>{contact.type}-{contact.phone}</p>
                     ))}
                 </div>
             </div>
