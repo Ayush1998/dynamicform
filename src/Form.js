@@ -18,6 +18,7 @@ const Form = () => {
     const [showData, setShowData] = useState(false)
 
     const addEmployee = () => {
+        setShowData(false)
         let currentEmployees = [...employees]
         currentEmployees.push({ name: "",
         designation: "",
@@ -144,6 +145,10 @@ const Form = () => {
 
     const downloadFile = async(e) => {
         e.preventDefault()
+        if(isDataInvalid()){
+            alert('Please fill all mendatory fields')
+            return
+        }
         let allEmployees = JSON.parse(JSON.stringify(employees))
         allEmployees[0]['name'] = 'ayush'
         for(let i=0; i<allEmployees.length; i++){
@@ -165,12 +170,13 @@ const Form = () => {
       const handleView = () => {
           if(isDataInvalid()){
               alert('Please fill all mendatory fields')
+              setShowData(false)
               return
           }
           else{
               setShowData(!showData)
-          }
       }
+    }
 
     return (
         <div>
