@@ -1,8 +1,8 @@
 {
-  "homepage": "https://ayush1998.github.io/dynamicform",
   "name": "dynamicform",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://ayush1998.github.io/dynamicform/",
   "dependencies": {
     "@testing-library/jest-dom": "^5.12.0",
     "@testing-library/react": "^11.2.7",
